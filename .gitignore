@@ -205,3 +205,6 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
+Data_users/movies.dat
+Data_users/ratings.dat
+Data_users/users.dat
