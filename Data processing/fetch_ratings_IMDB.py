@@ -1,4 +1,5 @@
 import pandas as pd
+import pyarrow
 
 ##### Dataset: IMDB non commercial datasets, récupérationn de CSV opensource des films IMDB et des données de ratings #####
 ####Téléchargement des fichiers compressés TSV depuis IMDB####
@@ -51,8 +52,12 @@ mask_nangenres=df_movie_ratings_complete['genres'].isna()
 mask_nanreleaseyear=df_movie_ratings_complete['release_year'].isna()
 df_movie_ratings_complete=df_movie_ratings_complete.loc[~(mask_nanruntime | mask_nandirector | mask_nangenres | mask_nanreleaseyear)]
 
+# Force les types pour éviter le crash PyArrow
+# 'Int64' (avec majuscule) permet de gérer les entiers même s'il y a des NaN
+df_movie_ratings_complete['release_year'] = df_movie_ratings_complete['release_year'].astype('Int64')
+df_movie_ratings_complete['runtimeMinutes'] = df_movie_ratings_complete['runtimeMinutes'].astype('float')
 
 ###Retrait de colonnes non pertinentes####
-df_movie_ratings_complete.drop(columns=['tconst','directors_id','birthYear','deathYear'], inplace=True)
+df_movie_ratings_complete.drop(columns=['directors_id','birthYear','deathYear'], inplace=True)
 
-df_movie_ratings_complete.to_csv('projet_python_films/Data processing/IMDB_movie_ratings.csv', index=False)
+df_movie_ratings_complete.to_parquet('projet_python_films/Data processing/IMDB_movie_ratings.parquet', index=False, engine='pyarrow')
