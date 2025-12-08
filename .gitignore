@@ -208,3 +208,12 @@ __marimo__/
 Data_users/movies.dat
 Data_users/ratings.dat
 Data_users/users.dat
+
+# Ignorer tous les fichiers .csv
+*.csv
+
+# Ignorer tous les fichiers .parquet
+*.parquet
+
+# Ignorer tous les fichiers .zip
+*.zip
