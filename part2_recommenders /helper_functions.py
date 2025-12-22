@@ -32,7 +32,7 @@ def download_movielens():
 
 
 # Function to create a merged df (including user info, movie info and ratings)
-def merge_dfs(): 
+def create_df(): 
     users_file = os.path.join(DATA_FOLDER, "users.dat")
     movies_file = os.path.join(DATA_FOLDER, "movies.dat")
     ratings_file = os.path.join(DATA_FOLDER, "ratings.dat")
@@ -58,13 +58,9 @@ def merge_dfs():
 
     # Merge df_user_info, df_films and df_ratings into 1 df_users 
     df_users = (df_ratings.merge(df_user_info, on="UserID").merge(df_films, on="MovieID"))
-    return df_users
 
-
-# Function to clean the data 
-def clean_df(df): 
     # Drop 'Timestamp' column
-    df = df.drop(columns=["Timestamp"])
+    df = df_users.drop(columns=["Timestamp"])
     # Convert 'Genres' string to list
     df["Genres"] = df["Genres"].apply(lambda x: x.split("|") if isinstance(x, str) else [])
     # Transform 'Gender' to binary values 
@@ -75,6 +71,7 @@ def clean_df(df):
     df['Year'] = pd.to_numeric(df['Year'], errors='coerce')
     df['Title'] = df['Title'].str.replace(r'\s*\(\d{4}\)', '', regex=True).str.strip()
     return df
+    return df_users
 
 
 # Function to find full movie name and movie id using an approximate name 
