@@ -1,12 +1,15 @@
 import pandas as pd
 import pyarrow
 
-##### Dataset: IMDB non commercial datasets, récupérationn de CSV opensource des films IMDB et des données de ratings #####
+##### Dataset: IMDB non commercial datasets, récupération de CSV opensource des films IMDB et des données de ratings #####
 ####Téléchargement des fichiers compressés TSV depuis IMDB####
 title_basics_url= 'https://datasets.imdbws.com/title.basics.tsv.gz'
 title_ratings_url= 'https://datasets.imdbws.com/title.ratings.tsv.gz'
 title_crew_url='https://datasets.imdbws.com/title.crew.tsv.gz'
 crew_names_url='https://datasets.imdbws.com/name.basics.tsv.gz'
+
+""" Ce code a pour but de merge les dataframes avec les données nécessaires entre eux pour créer un dataframe le plus complet qui nous servira
+dans notre algorithme de recommandation """
 
 ####Import des dataframes des datasets IMDB####
 df_imdb_title_id= pd.read_csv(title_basics_url, sep='\t', na_values='\\N') #données générales: thème, langues...
