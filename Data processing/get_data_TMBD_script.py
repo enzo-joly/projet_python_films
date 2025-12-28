@@ -1,3 +1,5 @@
+### Script qui parcoure la base de donées IMDB pour ajouter les informations importantes de TMDB grâce à l'API. Renvoie un fichier parquet, le script tourne pendant 2 heures environ.
+
 import requests
 import threading
 from requests.adapters import HTTPAdapter
