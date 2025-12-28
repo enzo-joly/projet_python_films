@@ -75,26 +75,25 @@ def create_df():
 
 
 # Function to find full movie name and movie id using an approximate name 
-def search_films(titre_approx, movieList, movieIDs):
+def search_films(titre_approx, df):
     """
-    Trouve les noms exacts et les indices des films à partir d'un nom approximatif.
+    Trouve l'ID et le nom exact d'un film à partir d'un titre approximatif
+    en utilisant directement le DataFrame principal.
     """
-    resultats = []
-    for i, nom in enumerate(movieList):
-        if titre_approx.lower() in nom.lower():
-            resultats.append({
-                "index": i,
-                "movieID": movieIDs[i],
-                "titre_exact": nom
-            })
+    # On récupère la liste unique des films (MovieID et Title)
+    df_unique_movies = df[['MovieID', 'Title']].drop_duplicates()
     
-    if not resultats:
+    # Filtrage insensible à la casse
+    resultats = df_unique_movies[df_unique_movies['Title'].str.contains(titre_approx, case=False, na=False)]
+    
+    if resultats.empty:
         print(f"Aucun film trouvé pour : '{titre_approx}'")
         return None
     
-    # On affiche les correspondances trouvées
     print(f"Correspondances pour '{titre_approx}':")
-    for res in resultats:
-        print(f"  - ID: {res['movieID']} | Titre: {res['titre_exact']}")
+    for _, row in resultats.iterrows():
+        print(f"  - ID: {row['MovieID']} | Titre: {row['Title']}")
     
-    return resultats
+    # Retourne les infos du dernier résultat trouvé (ou vous pouvez adapter pour retourner une liste)
+    last_movie = resultats.iloc[-1]
+    return last_movie['MovieID'], last_movie['Title']
