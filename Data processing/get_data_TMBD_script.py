@@ -1,3 +1,5 @@
+### Script qui parcoure la base de donées IMDB pour ajouter les informations importantes de TMDB grâce à l'API. Renvoie un fichier parquet, le script tourne pendant 2 heures environ.
+
 import requests
 import threading
 from requests.adapters import HTTPAdapter
@@ -137,8 +139,7 @@ def process_in_batches(full_id_list, batch_size=1000, max_workers=10):
     total_processed = 0
     total_films = len(full_id_list)
 
-    # On découpe la liste géante en petits morceaux (chunks)
-    # Ex: liste[0:1000], puis liste[1000:2000]...
+    # On découpe la liste géante en petits morceaux
     chunks = [full_id_list[i:i + batch_size] for i in range(0, total_films, batch_size)]
 
     print(f"Début du traitement : {total_films} films répartis en {len(chunks)} paquets.")
@@ -153,7 +154,7 @@ def process_in_batches(full_id_list, batch_size=1000, max_workers=10):
         
         with ThreadPoolExecutor(max_workers=max_workers) as executor:
             
-            # Ici, on ne crée que 'batch_size' (ex: 1000) futures. C'est safe pour la RAM.
+            # Ici, on ne crée que 'batch_size' (ex: 1000) futures.
             future_to_imdb = {executor.submit(fetch_full_movie_data, mid): mid for mid in chunk}
             
             for future in as_completed(future_to_imdb):
@@ -215,9 +216,7 @@ if __name__ == "__main__":
 
     except FileNotFoundError:
         print("Fichier introuvable. Lance le script de préparation d'abord.")
-
-    # Supposons que c'est la liste à parcourir
-    #imdb_id_list = ["tt0133093", "tt0137523", "tt0068646", "tt_ID_FOIREUX"] * 3000  
+ 
     # On lance par paquets
     process_in_batches(imdb_id_list, batch_size=2000, max_workers=10)
 
