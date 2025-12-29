@@ -1,12 +1,12 @@
 # Analyse de données et recommandation cinématographique
 
-## 📄 Introduction
+## Introduction
 
 Ce projet vise à mettre en application les différentes étapes d'un projet de science des données, de la collecte à la modélisation, en prenant pour sujet d'étude le domaine cinématographique.
 
-L'objectif principal est de construire une chaîne de traitement complète permettant d'agréger des données hétérogènes, de les analyser statistiquement et de proposer des mécanismes de recommandation.
+L'objectif principal est de construire une chaîne de traitement complète permettant d'agréger des données, de les analyser statistiquement et de proposer des mécanismes de recommandation.
 
-## ❓ Problématique
+## Problématique
 
 Comment exploiter et croiser des bases de données cinématographiques distinctes (API, fichiers plats) pour en extraire de l'information pertinente et modéliser les préférences des utilisateurs ?
 
