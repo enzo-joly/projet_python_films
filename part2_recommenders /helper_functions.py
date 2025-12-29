@@ -90,10 +90,4 @@ def search_films(titre_approx, df):
         print(f"Aucun film trouvé pour : '{titre_approx}'")
         return None
     
-    print(f"Correspondances pour '{titre_approx}':")
-    for _, row in resultats.iterrows():
-        print(f"  - ID: {row['MovieID']} | Titre: {row['Title']}")
-    
-    # Retourne les infos du dernier résultat trouvé (ou vous pouvez adapter pour retourner une liste)
-    last_movie = resultats.iloc[-1]
-    return last_movie['MovieID'], last_movie['Title']
+    return resultats 
