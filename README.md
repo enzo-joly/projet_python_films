@@ -10,6 +10,8 @@ L'objectif principal est de construire une chaîne de traitement complète perme
 
 Comment exploiter et croiser des bases de données cinématographiques distinctes (API, fichiers plats) pour en extraire de l'information pertinente et modéliser les préférences des utilisateurs ?
 
+## Déroulé du projet
+
 Notre approche s'articule autour de trois axes méthodologiques :
 
 1.  **Collecte et structuration des données :** Constitution d'un jeu de données unifié en croisant les informations techniques et les métadonnées issues de l'API **TMDB** (The Movie Database) et de la base de données **IMDb**. Cela correspond au **dossier `Step1`**, qui comprend trois scripts pythons. Tout d'abord, `fetch_ratings_IMDB.py` récupère et nettoie les données de la base IDMb. Ensuite `get_data_TMDB_script.py` s'occupe d'itérer sur la première base de données IMDB pour compléter les informations à partir de l'API TMDB. Enfin `join_data_TMDB_IMDB_final.py` joint les deux tables et crée un fichier parquet prêt à l'emploi avec toutes les données nettoyées. Le fichier est ensuite hébergé sur Huggingface et peut facilement être récupéré grâce à la commande pd.read_parquet("https://huggingface.co/datasets/enzojoly/projet_films/resolve/main/data_IMDB_TMDB_join.parquet")
