@@ -119,14 +119,13 @@ def save_batch(data_list, folder, prefix, batch_idx):
     if data_list:
         df = pd.DataFrame(data_list)
 
-        # --- BLOC DE SÉCURISATION ---
         # On identifie les colonnes qui contiennent des listes ou des objets complexes et on les convertit en chaîne de caractères JSON.
         complex_cols = ["cast", "production_companies"]
         
         for col in complex_cols:
             if col in df.columns:
                 df[col] = df[col].astype(str)
-        # ----------------------------
+
 
         filename = os.path.join(folder, f"{prefix}_{batch_idx:04d}.parquet")
         df.to_parquet(filename, engine='pyarrow')
@@ -139,7 +138,7 @@ def process_in_batches(full_id_list, batch_size=1000, max_workers=10):
     total_processed = 0
     total_films = len(full_id_list)
 
-    # On découpe la liste géante en petits morceaux
+    # On découpe la liste en petits morceaux
     chunks = [full_id_list[i:i + batch_size] for i in range(0, total_films, batch_size)]
 
     print(f"Début du traitement : {total_films} films répartis en {len(chunks)} paquets.")
@@ -154,14 +153,13 @@ def process_in_batches(full_id_list, batch_size=1000, max_workers=10):
         
         with ThreadPoolExecutor(max_workers=max_workers) as executor:
             
-            # Ici, on ne crée que 'batch_size' (ex: 1000) futures.
+            # Ici, on ne crée que 'batch_size' futures.
             future_to_imdb = {executor.submit(fetch_full_movie_data, mid): mid for mid in chunk}
             
             for future in as_completed(future_to_imdb):
                 imdb_id = future_to_imdb[future]
                 try:
-                    # C'est ici qu'on récupère le résultat.
-                    # Si fetch_full_movie_data a crashé (bug imprévu), ça saute au 'except'.
+                
                     result = future.result() 
 
                     # TRI DES RÉSULTATS
